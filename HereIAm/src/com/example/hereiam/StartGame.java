@@ -8,9 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,19 +47,13 @@ public class StartGame extends Activity implements OnClickListener, SuccessCallb
 	}
 
 	private void startGame() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String codeName = sharedPreferences.getString(getString(R.string.codename), getString(R.string.codename));
 
 		// setup parameters
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("name", codeName));
-		// params.add(new BasicNameValuePair("gamename", gameName));
-		// params.add(new BasicNameValuePair("codename", codeName));
+		List<NameValuePair> scriptParams = new ArrayList<NameValuePair>();
+		scriptParams.add(new BasicNameValuePair("gameName", gameName));
+		scriptParams.add(new BasicNameValuePair("hiderAlias", MainActivity.getAlias()));
 
-		// make request to server
-		// new Requester("startgame", params, "Starting a game...", this,
-		// getFragmentManager()).execute();
-		new PostRequester("hello", params, "Starting a game...", this, getFragmentManager()).execute();
+		new PostRequester("start_game", scriptParams, "Starting a game...", this, getFragmentManager()).runOnce();
 
 	}
 
@@ -77,13 +69,10 @@ public class StartGame extends Activity implements OnClickListener, SuccessCallb
 	@Override
 	public void onRequesterResponse(boolean success) {
 		if (success) {
-			// successfully added game on server
-			Log.d("start_status", "successfully called script");
 			Intent hider = new Intent(this, Hider.class);
 			startActivity(hider);
 		} else {
-			// failed to add game on server
-			Log.d("start_status", "failed to call script");
+			Log.e("shit", "shit...coudn't make a game!");
 		}
 	}
 

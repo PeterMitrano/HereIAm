@@ -30,12 +30,4 @@
         android:layout_margin="40px"
         android:text="@string/end_game" />
 
-    <Button
-        android:id="@+id/seeker_join_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="40px"
-        android:text="@string/join_game" />
-
 </LinearLayout>

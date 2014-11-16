@@ -1,27 +1,25 @@
 package com.example.hereiam;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-public class JoinGame extends Activity implements OnClickListener, SuccessCallback {
+public class JoinGame extends Activity implements OnClickListener, SuccessCallback, OnDismissListener {
 
 	private Button join;
 	private EditText game;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,43 +35,31 @@ public class JoinGame extends Activity implements OnClickListener, SuccessCallba
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == join.getId()) {
-			// start join game dialog
-			if (game.getText().length() != 5) {
-				Toast.makeText(this, "game names are 5 characters long", Toast.LENGTH_LONG).show();
-			} else {
-				joinGame();
-			}
+			joinGame();
 		}
 	}
 
 	private void joinGame() {
-		String gameName = game.getText().toString();
-
-		// setup parameters
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("gamename", gameName));
-		params.add(new BasicNameValuePair("codename", MainActivity.getCodeName()));
-
-		// make request to server
-		new PostRequester("joingame", params, "Joining Game...", this, getFragmentManager()).execute();
-
+		// join_game
+		ArrayList<NameValuePair> scriptParams = new ArrayList<NameValuePair>();
+		scriptParams.add(new BasicNameValuePair("gameName", game.getText().toString()));
+		scriptParams.add(new BasicNameValuePair("seekerAlias", MainActivity.getAlias()));
+		new PostRequester("join_game", scriptParams, "looking for games...", this, getFragmentManager()).runOnce();
 	}
 
 	@Override
 	public void onRequesterResponse(boolean success) {
+		if (success) {
+			new PopupFragment("Aaaaand GO!!!", this).show(getFragmentManager(), "game_found");
+		} else {
+			new PopupFragment("There aren't any games with that name!").show(getFragmentManager(), "no_game_found");
+		}
+
+	}
+
+	@Override
+	public void onDismiss(DialogInterface dialog) {
 		Intent seeker = new Intent(this, Seeker.class);
 		startActivity(seeker);
-
-		/*
-		 * 
-		 * if (success) { // successfully added game on server
-		 * Log.d("start_status", "successfully called script"); Intent seeker =
-		 * new Intent(this, Seeker.class); startActivity(seeker); } else { //
-		 * failed to add game on server Log.d("start_status",
-		 * "failed to call script"); new
-		 * PopupFragment("There aren't any games with that name!"
-		 * ).show(getFragmentManager(), "no_game_found"); }
-		 */
-
 	}
 }

@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/seeker_ping_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="40px"
-        android:text="@string/where_are_they" />
-
     <TextView
         android:id="@+id/seeker_location"
         android:layout_width="wrap_content"
@@ -21,13 +13,10 @@
         android:text="@string/default_coodinates"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <Button
-        android:id="@+id/seeker_exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="40px"
-        android:text="@string/leave_game" />
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    
 </LinearLayout>

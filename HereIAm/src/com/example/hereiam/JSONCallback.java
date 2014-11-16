@@ -1,8 +1,8 @@
 package com.example.hereiam;
 
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 public interface JSONCallback {
 
-	public void onJSONResponse(JSONObject result);
+	public void onJSONResponse(JSONArray result);
 }

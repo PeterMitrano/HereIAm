@@ -20,13 +20,6 @@ games.insert({
 seekers.insert({
 	"seekeralias" : "peter",
 	"location" : [40.0, 0.0],
-	"gamename" : "XCG4AS",
+	"gamename" : "XCG4AS",1
 	"gameid" : ObjectId('5468359c654a96492fed9590')
 	})
-
-
-
-for seeker in seekers.find({"game":games.find({"_id":gamename})}):
-
-
-	#print seeker['codename'], games.find_one({"_id":seeker['game']})['gamename']
