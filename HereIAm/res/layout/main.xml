@@ -16,10 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="50px"
+        android:layout_margin="10px"
         android:layout_weight="0.7"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/icon" />
 
     <Button
         android:id="@+id/main_new_game_button"

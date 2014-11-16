@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class StartGame extends Activity implements OnClickListener, RequesterCallback {
+public class StartGame extends Activity implements OnClickListener, SuccessCallback {
 
 	private Button start;
 	private TextView code;
@@ -54,11 +54,14 @@ public class StartGame extends Activity implements OnClickListener, RequesterCal
 
 		// setup parameters
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("gamename", gameName));
-		params.add(new BasicNameValuePair("codename", codeName));
+		params.add(new BasicNameValuePair("name", codeName));
+		// params.add(new BasicNameValuePair("gamename", gameName));
+		// params.add(new BasicNameValuePair("codename", codeName));
 
 		// make request to server
-		new Requester("startgame", params, "Starting a game...", this, getFragmentManager()).execute();
+		// new Requester("startgame", params, "Starting a game...", this,
+		// getFragmentManager()).execute();
+		new PostRequester("hello", params, "Starting a game...", this, getFragmentManager()).execute();
 
 	}
 

@@ -1,6 +1,6 @@
 package com.example.hereiam;
 
-public interface RequesterCallback {
+public interface SuccessCallback {
 
 	public void onRequesterResponse(boolean success);
 }
