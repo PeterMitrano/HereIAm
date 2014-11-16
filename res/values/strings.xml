@@ -22,5 +22,9 @@
     <string name="stealth_6">Invisible Ian</string>
     <string name="stealth_7">Chuck Norris Couldn\'t Find You!</string>
     <string name="start_game_title">Your Game Code is</string>
+    <string name="where_are_they">Where are they?!</string>
+    <string name="default_coodinates">0.0E 0.0N</string>
+    <string name="leave_game">Leave Game</string>
+    <string name="null_message">null message</string>
 
 </resources>

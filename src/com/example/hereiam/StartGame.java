@@ -1,32 +1,31 @@
 package com.example.hereiam;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class StartGame extends Activity implements OnClickListener {
+public class StartGame extends Activity implements OnClickListener, RequesterCallback {
 
 	private Button start;
 	private TextView code;
 	private static final String ALPHA_NUM = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	String gameName;
+	private String gameName;
 
-	String[] names = { "" };
+	String[] names = { "yellow", "epic", "super", "fat", "tall", "anti", "smile", "bird", "bug", "ninja", "wormhole", "kiwi",
+			"sushi", "burrito", "taco" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,40 +44,22 @@ public class StartGame extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == start.getId()) {
-			if (startGame()) {
-				// successfully added game on server
-				Log.d("start_status", "successfully created game");
-			} else {
-				// failed to add game on server
-				Log.d("start_status", "failed to make game");
-			}
+			startGame();
 		}
 	}
 
-	private boolean startGame() {
-		boolean success = true;
-		String codeName = "peter";
-		postData(gameName, codeName);
-		return success;
-	}
+	private void startGame() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String codeName = sharedPreferences.getString(getString(R.string.codename), getString(R.string.codename));
 
-	public void postData(String gameName, String codeName) {
-		// Create a new HttpClient and Post Header
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost("http://sophocles.rmorey.me/hackrpi/startgame.php");
+		// setup parameters
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("gamename", gameName));
+		params.add(new BasicNameValuePair("codename", codeName));
 
-		try {
-			// Add your data
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs.add(new BasicNameValuePair("gamename", gameName));
-			nameValuePairs.add(new BasicNameValuePair("alias", codeName));
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		// make request to server
+		new Requester("startgame", params, "Starting a game...", this, getFragmentManager()).execute();
 
-			httpclient.execute(httppost);
-
-		} catch (IOException e) {
-
-		}
 	}
 
 	public String getAlphaNumeric(int len) {
@@ -88,6 +69,19 @@ public class StartGame extends Activity implements OnClickListener {
 			sb.append(ALPHA_NUM.charAt(ndx));
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public void onRequesterResponse(boolean success) {
+		if (success) {
+			// successfully added game on server
+			Log.d("start_status", "successfully called script");
+			Intent hider = new Intent(this, Hider.class);
+			startActivity(hider);
+		} else {
+			// failed to add game on server
+			Log.d("start_status", "failed to call script");
+		}
 	}
 
 }
