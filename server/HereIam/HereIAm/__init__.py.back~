@@ -1,0 +1,68 @@
+from flask import Flask
+from flask import request
+from pymongo import MongoClient
+#from pymongo import jsonify
+"""
+client = MongoClient()
+
+database = client["hereiam"]
+games = database["games"]
+seekers = database["seekers"]
+"""
+app = Flask(__name__)
+
+@app.route("/hello")
+def hello():
+    return "Hello"
+"""
+@app.route("/hereiam/get_hider_location", methods=['POST', 'GET'])
+def get_hider_location():
+    gameName = request.args.get('gameName')
+    location = games.find({"gameName":gameName})
+    return jsonify(location)
+
+@app.route("/hereiam/start_game", methods=['POST','GET'])
+def start_game():
+    gameName = request.args.get('gameName')
+    hiderAlias = request.args.get('hiderAlias')
+    writeResult = games.insert({
+        "gameName": gameName,
+        "hiderAlias": hiderAlias })
+    result = writeResult['nInserted']
+    if result:
+        return "successfully started game " + gameName + " as " + hiderAlias
+    return "failed to start game " + gameName + " as " + hiderAlias
+
+@app.route("/hereiam/join_game", methods=['POST','GET'])
+def join_game():
+    gameName = request.args.get('gameName')
+    seekerAlias = request.args.get('seekerAlias')
+    writeResult = seekers.insert({
+        "seekerAlias": seekerAlias,
+        "gameName": gameName })
+    result = writeResult['nInserted']
+    """
+   # if result:
+   #     return "successfully joined game " + gameName + " as " + seekerAlias
+   # return "failed to join game " + gameName + " as " + seekerAlias
+    """
+@app.route("/hereiam/end_game", methods=['POST'])
+def end_game():
+    return "ended game"
+
+@app.route("/hereiam/publish_location", methods=['POST'])
+def pubish_location():
+    return "published location"
+
+
+
+@app.route("/hereiam/create_game", methods=['GET', 'POST'])
+def create_game():
+    gamename = request.args.get('gamename')
+    codename = request.args.get('codename')
+    return "created game!"
+
+
+"""
+if __name__ == "__main__":
+    app.run()
