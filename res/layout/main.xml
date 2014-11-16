@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1"
+    tools:context="com.example.hereiam.MainActivity" >
+
+    <ImageView
+        android:id="@+id/main_splash_image"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="50px"
+        android:layout_weight="0.7"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_launcher" />
+
+    <Button
+        android:id="@+id/main_new_game_button"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20px"
+        android:layout_weight="0.15"
+        android:text="@string/new_game" />
+
+    <Button
+        android:id="@+id/main_join_game_button"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="100px"
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px"
+        android:layout_marginTop="20px"
+        android:layout_weight="0.15"
+        android:text="@string/join_game" />
+
+</LinearLayout>
